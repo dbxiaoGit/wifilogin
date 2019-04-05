@@ -113,15 +113,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String resp = response.body().string();
+                //Log.i("response", resp);
+                if (resp.contains("logon success") || resp.contains("用户已在线")) {
+                    isLoginSuccess = true;
+                    resp = resp + "\n登陆成功！";
+                }else {
+                    isLoginSuccess = false;
+                    resp = resp + "\n登陆失败！";
+                }
                 Message message = new Message();
                 message.obj = resp;
                 handler.sendMessage(message);
-                //Log.i("response", resp);
-                if (resp.contains("login success") || resp.contains("用户已在线")) {
-                    isLoginSuccess = true;
-                }else {
-                    isLoginSuccess = false;
-                }
             }
         });
 
